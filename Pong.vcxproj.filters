@@ -19,4 +19,304 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="lose.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="realwin.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="title.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="win.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dep\SDL\include\begin_code.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\close_code.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_assert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_atomic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_bits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_blendmode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_clipboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_android.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_iphoneos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_macosx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_minimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_pandora.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_psp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_windows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_winrt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_config_wiz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_copying.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_cpuinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_egl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_endian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_events.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_filesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_gamecontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_gesture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_haptic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_hidapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_hints.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_joystick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_keycode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_loadso.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_locale.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_messagebox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_metal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_mouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_mutex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_name.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_opengl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_opengl_glext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_opengles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_opengles2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_opengles2_gl2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_opengles2_gl2ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_opengles2_gl2platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_opengles2_khrplatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_pixels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_power.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_quit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_revision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_rwops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_scancode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_sensor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_shape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_stdinc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_syswm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_assert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_compare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_crc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_fuzzer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_harness.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_images.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_md5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_test_random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_touch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_video.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\SDL\include\SDL_vulkan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sound\aipoint.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="sound\bounce.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="sound\gameover.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="sound\lose.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="sound\title_screen.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="sound\userpoint.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="sound\win.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

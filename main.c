@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdint.h>
 #include <SDL.h>
+#include <SDL_mixer.h>
 
 #define SCR_WIDTH		(1280)
 #define SCR_HEIGHT		(720)
@@ -12,7 +13,7 @@
 #define MAX_ANGLE		(0.75f)			// about 40 degrees; the max angle that the ball can change by after getting hit
 #define TRUE			(1)
 #define FALSE			(0)
-#define MAX_SCORE		(20)
+#define MAX_SCORE		(12)
 
 typedef uint32_t bool_t; // using uint32_t to keep natural word size
 
@@ -80,9 +81,28 @@ struct ai_t
 	float y;			// ai position along y axis 
 } ai;
 
+struct sfx_t
+{
+	Mix_Music *title_screen; // music for title screen
+	Mix_Chunk *bounce;		 // when ball bounces
+	Mix_Chunk *gameover;	 // game over
+	Mix_Chunk *lose;		 // when player loses
+	Mix_Chunk *win;			 // when player wins
+	Mix_Chunk *userpoint;	 // when player scores
+	Mix_Chunk *aipoint;		 // when ai scores
+} sfx;
+
+struct screens_t
+{
+	SDL_Texture *title;
+	SDL_Texture *lose;
+	SDL_Texture *win;
+	SDL_Texture *winningest;
+} screens;
+
 /* Globals */
 bool_t game_start = FALSE; // lazy state machine. False = title screen, true = game
-SDL_Texture *title_screen, *lose_screen, *win_screen, *winningest_screen;
+
 
 enum
 {
@@ -102,11 +122,13 @@ enum
 
 int32_t RandomRange(int32_t min, int32_t max);
 void UpdateTitle();
+bool_t LoadSoundEffects();
+void FreeSoundEffects();
 void InitGameLoop();
 void InitBall();
 void InitUser();
 void InitAI();
-void CheckWin();
+bool_t CheckWin();
 void BallCheckWallCollisions();
 void BallCheckPaddleCollisions();
 void BallCheckGoal();
@@ -121,12 +143,15 @@ void DrawBall();
 void DrawUser();
 void DrawAI();
 bool_t LoadScreens();
+void FreeScreens();
 bool_t ConstructDisplay(struct display_t* display);
 void InitGame();
 bool_t Initialize();
 bool_t Tick();
 bool_t Render();
 bool_t Run();
+void PlayAndWait(int channel, Mix_Chunk *c, int loops);
+void HandleTitleMusic();
 
 int32_t
 RandomRange(int32_t min, int32_t max)
@@ -162,6 +187,62 @@ UpdateTitle()
 
 	char title[22] = { 'P', 'o', 'n', 'g', ' ', '|', ' ', 'S', 'c', 'o', 'r', 'e', ':', ' ', user_score_tenth, user_score_first, ' ', '-', ' ', ai_score_tenth, ai_score_first, '\0' };
 	SDL_SetWindowTitle(display.w, title);
+}
+
+bool_t
+LoadSoundEffects()
+{
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		fprintf(stderr, "Error: Could not initialize SDL_mixer.\nMixer: %s\n", Mix_GetError());
+		return FALSE;
+	}
+	sfx.title_screen = Mix_LoadMUS("sound/title_screen.wav");
+	if (!sfx.title_screen) {
+		fprintf(stderr, "Error: Could not load title screen music.\nMixer: %s\n", Mix_GetError());
+		return FALSE;
+	}
+	sfx.bounce = Mix_LoadWAV("sound/bounce.wav");
+	if (!sfx.bounce) {
+		fprintf(stderr, "Error: Could not load bounce sound.\nMixer: %s\n", Mix_GetError());
+		return FALSE;
+	}
+	sfx.lose = Mix_LoadWAV("sound/lose.wav");
+	if (!sfx.lose) {
+		fprintf(stderr, "Error: Could not load lose sound.\nMixer: %s\n", Mix_GetError());
+		return FALSE;
+	}
+	sfx.win = Mix_LoadWAV("sound/win.wav");
+	if (!sfx.win) {
+		fprintf(stderr, "Error: Could not load win sound..\nMixer: %s\n", Mix_GetError());
+		return FALSE;
+	}
+	sfx.gameover = Mix_LoadWAV("sound/gameover.wav");
+	if (!sfx.gameover) {
+		fprintf(stderr, "Error: Could not load gameover sound.\nMixer: %s\n", Mix_GetError());
+		return FALSE;
+	}
+	sfx.userpoint = Mix_LoadWAV("sound/userpoint.wav");
+	if (!sfx.userpoint) {
+		fprintf(stderr, "Error: Could not load user point sound.\nMixer: %s\n", Mix_GetError());
+		return FALSE;
+	}
+	sfx.aipoint = Mix_LoadWAV("sound/aipoint.wav");
+	if (!sfx.aipoint) {
+		fprintf(stderr, "Error: Could not load ai point sound.\nMixer: %s\n", Mix_GetError());
+		return FALSE;
+	}
+	return TRUE;
+}
+
+void FreeSoundEffects()
+{
+	Mix_FreeMusic(sfx.title_screen); 
+	Mix_FreeChunk(sfx.aipoint);
+	Mix_FreeChunk(sfx.userpoint);
+	Mix_FreeChunk(sfx.gameover);
+	Mix_FreeChunk(sfx.win);
+	Mix_FreeChunk(sfx.lose);
+	Mix_FreeChunk(sfx.bounce);
 }
 
 void 
@@ -213,7 +294,21 @@ InitAI()
 	ai.y = (SCR_HEIGHT / 2) - PADDLE_HEIGHT / 2;	
 }
 
-void
+void 
+PlayAndWait(int channel, 
+			Mix_Chunk* chunk, 
+			int loops)
+{
+	channel = Mix_PlayChannel(channel, chunk, loops);
+	if (channel < 0) {
+		return; // error
+	}
+	while (Mix_Playing(channel) != 0) {
+		SDL_Delay(200);
+	}
+}
+
+bool_t
 CheckWin() // check if someone won
 {
 	if (user.score == MAX_SCORE) {
@@ -223,13 +318,16 @@ CheckWin() // check if someone won
 			screen_state = WIN;
 		game_start = FALSE; // reset game upon winning / losing
 		InitGame();
+		return TRUE;
 	}
 
 	if (ai.score == MAX_SCORE) {
 		screen_state = LOSE;
 		game_start = FALSE;
 		InitGame();
+		return TRUE;
 	}
+	return FALSE;
 }
 
 void
@@ -238,10 +336,12 @@ BallCheckWallCollisions()
 	if (ball.p.y <= 0) {
 		ball.p.y = 0;
 		ball.v.y = - ball.v.y;
+		Mix_PlayChannel(-1, sfx.bounce, 0);
 	}
 	if (ball.p.y + ball.h >= SCR_HEIGHT) {
 		ball.p.y = SCR_HEIGHT - ball.h;
 		ball.v.y = -ball.v.y;
+		Mix_PlayChannel(-1, sfx.bounce, 0);
 	}
 }
 
@@ -263,6 +363,7 @@ BallCheckPaddleCollisions()
 
 		ball.v.x = cosf(bounce_angle);
 		ball.v.y = -sinf(bounce_angle);
+		Mix_PlayChannel(-1, sfx.bounce, 0);
 	}
 
 	// collision with ai
@@ -279,6 +380,7 @@ BallCheckPaddleCollisions()
 
 		ball.v.x = -cosf(bounce_angle);
 		ball.v.y = sinf(bounce_angle);
+		Mix_PlayChannel(-1, sfx.bounce, 0);
 	}
 }
 
@@ -293,7 +395,7 @@ BallCheckGoal()
 		if (difficulty >= MODE_HARD) {
 			ball.speed += 0.5f;
 		}
-		CheckWin();
+		if (!CheckWin()) Mix_PlayChannel(-1, sfx.userpoint, 0); // don't play the sound if the win screen is on
 	}
 	if (ball.p.x < user.goal) {
 		ai.score++;
@@ -303,7 +405,7 @@ BallCheckGoal()
 		if (difficulty >= MODE_HARD) {
 			ball.speed += 0.5f;
 		}
-		CheckWin();
+		if (!CheckWin()) Mix_PlayChannel(-1, sfx.aipoint, 0);
 	}
 }
 
@@ -340,9 +442,16 @@ CalculateTargetAI(int32_t random_offset)
 {
 	if (ball.v.x > 0) { // if the ball is coming toward it
 		if (ai.last_vel.x != ball.v.x	// if the ball x velocity changed
-		|| ai.last_vel.y != ball.v.y
-		|| (ai.goal - PADDLE_WIDTH - ball.p.x < 30 * ball.w && ai.goal - PADDLE_WIDTH - ball.p.x > 20 * ball.w)) // ai recalculates position when ball is in a certain range (
+		|| ai.last_vel.y != ball.v.y)
 		{ 
+			ai.target = ball.p.y + ball.v.y * (ai.goal - PADDLE_WIDTH - ball.p.x) - PADDLE_HEIGHT / 2; // calculates where the ball will hit the paddle on the y axis
+			ai.target += RandomRange(-random_offset, random_offset);
+			ai.last_vel.x = ball.v.x;
+			ai.last_vel.y = ball.v.y;
+		}
+		if (difficulty >= MODE_HARD
+		&& (ai.goal - PADDLE_WIDTH - ball.p.x < 30 * ball.w && ai.goal - PADDLE_WIDTH - ball.p.x > 20 * ball.w)) // ai recalculates position when ball is in a certain range )
+		{
 			ai.target = ball.p.y + ball.v.y * (ai.goal - PADDLE_WIDTH - ball.p.x) - PADDLE_HEIGHT / 2; // calculates where the ball will hit the paddle on the y axis
 			ai.target += RandomRange(-random_offset, random_offset);
 			ai.last_vel.x = ball.v.x;
@@ -457,10 +566,10 @@ LoadScreens()
 	if (!title_surface || !lose_surface || !win_surface || !winningest_surface) {
 		return FALSE;
 	}
-	title_screen = SDL_CreateTextureFromSurface(display.r, title_surface);
-	lose_screen = SDL_CreateTextureFromSurface(display.r, lose_surface);
-	win_screen = SDL_CreateTextureFromSurface(display.r, win_surface);
-	winningest_screen = SDL_CreateTextureFromSurface(display.r, winningest_surface);
+	screens.title = SDL_CreateTextureFromSurface(display.r, title_surface);
+	screens.lose = SDL_CreateTextureFromSurface(display.r, lose_surface);
+	screens.win = SDL_CreateTextureFromSurface(display.r, win_surface);
+	screens.winningest = SDL_CreateTextureFromSurface(display.r, winningest_surface);
 
 	SDL_FreeSurface(title_surface);
 	SDL_FreeSurface(lose_surface);
@@ -468,6 +577,15 @@ LoadScreens()
 	SDL_FreeSurface(winningest_surface);
 
 	return TRUE;
+}
+
+void
+FreeScreens()
+{
+	SDL_DestroyTexture(screens.title);
+	SDL_DestroyTexture(screens.lose);
+	SDL_DestroyTexture(screens.win);
+	SDL_DestroyTexture(screens.winningest);
 }
 
 bool_t
@@ -505,6 +623,11 @@ bool_t
 Initialize()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+	Mix_Init(0);
+	if (!LoadSoundEffects()) {
+		fprintf(stderr, "Error: Could not load sound effects.\n");
+		return FALSE;
+	}
 	srand(time(0));
 	if (!ConstructDisplay(&display)) {
 		fprintf(stderr, "Could not initialize display window.\n");
@@ -520,11 +643,29 @@ Initialize()
 	return TRUE;
 }
 
+void
+HandleTitleMusic()
+{
+	if (!Mix_PlayingMusic()) {
+		switch (screen_state)
+		{
+		case TITLE: Mix_PlayMusic(sfx.title_screen, 1); break;
+		case LOSE: PlayAndWait(-1, sfx.gameover, 0); PlayAndWait(-1, sfx.lose, 0); screen_state = TITLE; break;
+		case WIN: PlayAndWait(-1, sfx.gameover, 0); PlayAndWait(-1, sfx.win, 0); screen_state = TITLE; break;
+		case WINNINGEST: PlayAndWait(-1, sfx.gameover, 0); PlayAndWait(-1, sfx.win, 0); screen_state = TITLE; break;
+		}
+	}
+}
+
 bool_t
 Tick()
 {
 	if (!game_start) {
+		HandleTitleMusic();
 		return TRUE;
+	}
+	if (Mix_PlayingMusic()) {
+		Mix_HaltMusic(); // stop music when title screen gone
 	}
 
 	TickBall();
@@ -544,16 +685,16 @@ Render()
 		switch (screen_state) // which screen should be rendered
 		{
 		case TITLE:
-			SDL_RenderCopy(display.r, title_screen, NULL, &location);
+			SDL_RenderCopy(display.r, screens.title, NULL, &location);
 			break;
 		case LOSE:
-			SDL_RenderCopy(display.r, lose_screen, NULL, &location);
+			SDL_RenderCopy(display.r, screens.lose, NULL, &location);
 			break;
 		case WIN:
-			SDL_RenderCopy(display.r, win_screen, NULL, &location);
+			SDL_RenderCopy(display.r, screens.win, NULL, &location);
 			break;
 		case WINNINGEST:
-			SDL_RenderCopy(display.r, winningest_screen, NULL, &location);
+			SDL_RenderCopy(display.r, screens.winningest, NULL, &location);
 			break;
 		}
 		
@@ -633,10 +774,8 @@ Run()
 
 	SDL_DestroyRenderer(display.r);
 	SDL_DestroyWindow(display.w);
-	SDL_DestroyTexture(title_screen);
-	SDL_DestroyTexture(lose_screen);
-	SDL_DestroyTexture(win_screen);
-	SDL_DestroyTexture(winningest_screen);
+	FreeScreens();
+	FreeSoundEffects();
 	return TRUE;
 }
 

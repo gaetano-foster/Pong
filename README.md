@@ -17,7 +17,7 @@ It should work on any system with any compiler; the code is pretty cross platfor
 * The ball will be randomly served to either you or the AI.
 * Block it by moving your paddle up and down.
 * Try to hit it past the AI's paddle to score a point.
-* First to 20 points wins.
+* First to 12 points wins.
 
 ## Modes
 * Easy        - AI paddle moves at half speed, ball speed does not increase, and AI is innaccurate.
