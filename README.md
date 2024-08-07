@@ -24,3 +24,7 @@ It should work on any system with any compiler; the code is pretty cross platfor
 * Normal      - AI paddle moves at same speed, ball speed does not increase, and AI is slightly innacurate
 * Hard        - AI paddle moves at same speed, ball speed increases after each point, and AI is accurate
 * Impossible  - AI paddle moves at double speed, ball speed increases after each point, and AI is perfect
+
+## Demonstration
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/S7dDnmHAeqk/0.jpg)](https://www.youtube.com/watch?v=S7dDnmHAeqk)
