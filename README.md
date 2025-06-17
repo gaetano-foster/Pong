@@ -1,29 +1,27 @@
-# Pong
+**Pong (Single-Player, SDL)**
 
-This is a simple single-player implementation of the classic Pong game in C using SDL.
+**Description**
+A modern single-player reimagining of the classic arcade game *Pong*, written in C using the SDL2 library. This implementation includes multiple difficulty levels with configurable AI responsiveness and ball dynamics, showcasing basic game architecture and SDL event handling.
 
-## Prerequisites
+**Dependencies**
 
-Before compiling the game, ensure that you have the SDL library installed on your system. You can download and install it from the [SDL website]([https://www.libsdl.org/download-2.0.php](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.1)https://github.com/libsdl-org/SDL/releases/tag/release-2.30.1).
+* SDL2 library ([Download SDL2](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.1))
+* SDL\_mixer extension for background music and sound effects
 
-It should work on any system with any compiler; the code is pretty cross platform.
+**Build Instructions**
+The code is cross-platform and compatible with most C compilers. Project is built with visual studio.
 
-## Controls
-* Up arrow   - Move up
-* Down arrow - Move down
+**Controls**
 
-## Gameplay
-* Select a mode on the title screen.
-* The ball will be randomly served to either you or the AI.
-* Block it by moving your paddle up and down.
-* Try to hit it past the AI's paddle to score a point.
-* First to 12 points wins.
+* Arrow Up: Move paddle up
+* Arrow Down: Move paddle down
 
-## Modes
-* Easy        - AI paddle moves at half speed, ball speed does not increase, and AI is innaccurate.
-* Normal      - AI paddle moves at same speed, ball speed does not increase, and AI is slightly innacurate
-* Hard        - AI paddle moves at same speed, ball speed increases after each point, and AI is accurate
-* Impossible  - AI paddle moves at double speed, ball speed increases after each point, and AI is perfect
+**Features**
+
+* Multiple AI difficulty levels with adjustable speed and accuracy
+* Ball physics that increase in speed with game progress
+* Title screen with interactive mode selection
+* Win condition based on scoring threshold (12 points)
 
 ## Demonstration
 
